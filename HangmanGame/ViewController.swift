@@ -132,6 +132,23 @@ class ViewController: UIViewController {
         }
         
         promptLabel.text = maskedWordString
+        
+        checkIfCompleted()
+    }
+    
+    func checkIfCompleted() {
+        if wrongAnswer == 7 {
+            let ac = UIAlertController(title: "You lost!\n Correct word was \(word)", message: "Try one more time!", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Restart", style: .default, handler: restartGame))
+            present(ac, animated: true)
+        }
+        
+        if word == maskedWordString {
+            let ac = UIAlertController(title: "Well done!", message: "Let's try another word!", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Let's go", style: .default, handler: restartGame))
+            present(ac, animated: true)
+        }
+        
     }
     
     func loadLevel() {
@@ -151,5 +168,28 @@ class ViewController: UIViewController {
 
         promptLabel.text = maskedWordString
     }
+    
+    func levelUp(action: UIAlertAction) {
+        word = ""
+        updateUI()
+        loadLevel()
+    }
+
+    func restartGame(action: UIAlertAction) {
+        word = "HANGMAN"
+        score = 0
+        updateUI()
+        loadLevel()
+    }
+
+    func updateUI() {
+        wrongAnswer = 0
+        wordLetterArray.removeAll()
+        maskedWordArray.removeAll()
+        maskedWordString = ""
+        for btn in letterButtons {
+            btn.isHidden = false
+    }
+  }
 }
 
